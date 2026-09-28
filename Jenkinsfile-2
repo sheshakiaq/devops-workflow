@@ -63,13 +63,12 @@ pipeline {
         }
 
         stage('Deploy to EC2') {
-            steps {
-                sshagent(credentials: ['ec2-ssh-key']){
-                      sh '''
+          steps {
+                sshagent(['ec2-ssh-key']) {
+                    sh '''
                     ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
                     
                       git clone https://github.com/sheshakiaq/devops-workflow.git
-                      
                       cd devops-workflow
                       
                       git pull origin main
@@ -85,8 +84,9 @@ pipeline {
                       docker image prune -f
                     EOF
                     '''
-                    }
                 }
+            }
+
             }
     
 
