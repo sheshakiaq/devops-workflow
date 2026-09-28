@@ -7,6 +7,7 @@ pipeline {
         DOCKER_HUB_USER = 'sheshavardhinikiaq'
         DOCKER_TAG = "v${BUILD_NUMBER}"
         EC2_HOST = '32.192.5.20'
+        PEM_KEY_PATH= '/home/ubuntu/keys/backend.pem'
         //EC2_USER = 'ubuntu'
     }
 
@@ -63,9 +64,10 @@ pipeline {
 
         stage('Deploy to EC2') {
             steps {
-                sshagent([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', KeyFileVariable: 'KEYFILE', usernameVariable: 'SSH_USER')]) {
+              //  sshagent([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', KeyFileVariable: 'KEYFILE', usernameVariable: 'SSH_USER')]) {
                     sh '''
-                    ssh -o StrictHostKeyChecking=no -i $KEYFILE $SSH_USER@$EC2_HOST << 'EOF'
+                    chmod 400 $PEM_KEY_PATH
+                    ssh -o StrictHostKeyChecking=no -i $PEM_KEY_PATH $EC2_USER@$EC2_HOST << 'EOF'
                       mkdir Smart-Task-Management-System-main
                       cd ~/Smart-Task-Management-System-main
                       git pull origin main
