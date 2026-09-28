@@ -83,7 +83,7 @@ pipeline {
                       //docker image prune -f
                     EOF
                     '''
-                }
+               // }
             }
         }
     
