@@ -20,7 +20,7 @@ pipeline {
         stage('Build Backend Images') {
             steps {
                 script {
-                    echo "Building Microservices Docker Image
+                    echo "Building Microservices Docker Image"
                     sh '''
                     docker build -t $DOCKER_HUB_USER/smarttask-api-gateway:$DOCKER_TAG ./api-gateway_1784010924579
                     docker build -t $DOCKER_HUB_USER/smarttask-auth-service:$DOCKER_TAG ./auth-service_1784011000189
