@@ -68,9 +68,9 @@ pipeline {
                     sh '''
                     ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
                     
-                      mkdir -p Smart-Task-Management-System-main
+                      git clone https://github.com/sheshakiaq/devops-workflow.git
                       
-                      cd Smart-Task-Management-System-main
+                      cd devops-workflow
                       
                       git pull origin main
                       
