@@ -66,9 +66,12 @@ pipeline {
             steps {
                 sshagent(credentials: ['ec2-ssh-key']){
                     sh '''
-                    ssh -o StrictHostKeyChecking=no -i EC2_USER@$EC2_HOST "
-                      mkdir Smart-Task-Management-System-main
-                      cd ~/Smart-Task-Management-System-main
+                    ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
+                    
+                      mkdir -p Smart-Task-Management-System-main
+                      
+                      cd Smart-Task-Management-System-main
+                      
                       git pull origin main
                       
                       echo "Pulling new images..."
@@ -76,11 +79,12 @@ pipeline {
                       
                       echo "Restarting services..."
                       docker compose down
-                      docker compose up -d --remove-orphans
+                      docker compose up -d 
                       
                       docker ps
                       docker image prune -f
-                      "
+                      
+                      EOF
                     '''
                     }
                 }
