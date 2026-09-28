@@ -65,25 +65,17 @@ pipeline {
         stage('Deploy to EC2') {
           steps {
                 sshagent(['ec2-ssh-key']) {
-                    sh '''
-                    ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
-                    
-                      git clone https://github.com/sheshakiaq/devops-workflow.git
-                      cd devops-workflow
-                      
+                  sh '''
+                    ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "
+                      cd Smart-Task-Management-System-main
                       git pull origin main
-                      
-                      echo "Pulling new images..."
                       docker compose pull
-                      
-                      echo "Restarting services..."
                       docker compose down
                       docker compose up -d --remove-orphans
-                      
                       docker ps
-                      docker image prune -f
-                    EOF
-                    '''
+                    "
+                  '''
+                    
                 }
             }
 
