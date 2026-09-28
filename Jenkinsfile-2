@@ -84,7 +84,7 @@ pipeline {
                       docker ps
                       docker image prune -f
                       
-                      EOF
+                 EOF
                     '''
                     }
                 }
