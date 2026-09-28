@@ -7,7 +7,7 @@ pipeline {
         DOCKER_HUB_USER = 'sheshavardhinikiaq'
         DOCKER_TAG = "v${BUILD_NUMBER}"
         EC2_HOST = '32.192.5.20'
-        EC2_USER = 'ubuntu'
+        //EC2_USER = 'ubuntu'
     }
 
     stages {
@@ -63,9 +63,9 @@ pipeline {
 
         stage('Deploy to EC2') {
             steps {
-                sshagent(['ec2-ssh-key']) {
+                sshagent([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', KeyFileVariable: 'KEYFILE', usernameVariable: 'SSH_USER')]) {
                     sh '''
-                    ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
+                    ssh -o StrictHostKeyChecking=no -i $KEYFILE $SSH_USER@$EC2_HOST << 'EOF'
                       mkdir Smart-Task-Management-System-main
                       cd ~/Smart-Task-Management-System-main
                       git pull origin main
@@ -78,7 +78,7 @@ pipeline {
                       docker compose up -d --remove-orphans
                       
                       docker ps
-                      docker image prune -f
+                      //docker image prune -f
                     EOF
                     '''
                 }
