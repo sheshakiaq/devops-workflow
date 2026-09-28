@@ -65,7 +65,7 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 sshagent(credentials: ['ec2-ssh-key']){
-                    sh '''
+                      sh '''
                     ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
                     
                       git clone https://github.com/sheshakiaq/devops-workflow.git
@@ -79,12 +79,11 @@ pipeline {
                       
                       echo "Restarting services..."
                       docker compose down
-                      docker compose up -d 
+                      docker compose up -d --remove-orphans
                       
                       docker ps
                       docker image prune -f
-                      
-                 EOF
+                    EOF
                     '''
                     }
                 }
