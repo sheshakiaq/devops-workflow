@@ -1,0 +1,1366 @@
+Started by user Shesha Vardhini K
+Obtained Jenkinsfile-2 from git https://github.com/sheshakiaq/devops-workflow.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/dev-backend
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential 0427eea7-64e5-4488-a9f5-e8fea20e874e
+ > /usr/bin/git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/dev-backend/.git # timeout=10
+Fetching changes from the remote Git repository
+ > /usr/bin/git config remote.origin.url https://github.com/sheshakiaq/devops-workflow.git # timeout=10
+Fetching upstream changes from https://github.com/sheshakiaq/devops-workflow.git
+ > /usr/bin/git --version # timeout=10
+ > git --version # 'git version 2.43.0'
+using GIT_ASKPASS to set credentials 
+ > /usr/bin/git fetch --tags --force --progress -- https://github.com/sheshakiaq/devops-workflow.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > /usr/bin/git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision eaa41c9523ebe38cb7e3f228a77a82c54a0c4ffb (refs/remotes/origin/main)
+ > /usr/bin/git config core.sparsecheckout # timeout=10
+ > /usr/bin/git checkout -f eaa41c9523ebe38cb7e3f228a77a82c54a0c4ffb # timeout=10
+Commit message: "backend script"
+ > /usr/bin/git rev-list --no-walk 4e255283fde3f81d0570a6e03960e333dbc21552 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withCredentials
+WARNING: Unknown parameter(s) found for class type 'com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentialsBinding': keyIdVariable,secretVariable
+Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential 0427eea7-64e5-4488-a9f5-e8fea20e874e
+ > /usr/bin/git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/dev-backend/.git # timeout=10
+Fetching changes from the remote Git repository
+ > /usr/bin/git config remote.origin.url https://github.com/sheshakiaq/devops-workflow.git # timeout=10
+Fetching upstream changes from https://github.com/sheshakiaq/devops-workflow.git
+ > /usr/bin/git --version # timeout=10
+ > git --version # 'git version 2.43.0'
+using GIT_ASKPASS to set credentials 
+ > /usr/bin/git fetch --tags --force --progress -- https://github.com/sheshakiaq/devops-workflow.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > /usr/bin/git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision eaa41c9523ebe38cb7e3f228a77a82c54a0c4ffb (refs/remotes/origin/main)
+ > /usr/bin/git config core.sparsecheckout # timeout=10
+ > /usr/bin/git checkout -f eaa41c9523ebe38cb7e3f228a77a82c54a0c4ffb # timeout=10
+Commit message: "backend script"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Backend Images)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+Building Microservices Docker Image
+[Pipeline] sh
++ docker build -t sheshavardhinikiaq/smarttask-api-gateway:v24 ./api-gateway_1784010924579
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 126B done
+#1 DONE 0.0s
+
+#2 [auth] library/node:pull token for registry-1.docker.io
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 1.5s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 58B done
+#4 DONE 0.0s
+
+#5 [1/4] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#5 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 341B done
+#6 DONE 0.0s
+
+#7 [2/4] WORKDIR /app
+#7 CACHED
+
+#8 [3/4] COPY . .
+#8 CACHED
+
+#9 [4/4] RUN npm install
+#9 CACHED
+
+#10 exporting to image
+#10 exporting layers done
+#10 exporting manifest sha256:a85e76bb244358245b81df17a45eabadfd3c18a65c17ad7ef5f9e4e4748cc1a9 done
+#10 exporting config sha256:9f214a34d33fe2e0aa2f95e481cec3fed821add7eae42907fb18734dc3cf2fd7 done
+#10 exporting attestation manifest sha256:960a3520251337a2ccb16ee802a9f8de50e211d293723f00790c20b7fd879271
+#10 exporting attestation manifest sha256:960a3520251337a2ccb16ee802a9f8de50e211d293723f00790c20b7fd879271 0.0s done
+#10 exporting manifest list sha256:3984503019f65742cba78753ba26d7ea4178d94a0c9b22ceb6f4f76d4ed9116a 0.0s done
+#10 naming to docker.io/sheshavardhinikiaq/smarttask-api-gateway:v24 done
+#10 unpacking to docker.io/sheshavardhinikiaq/smarttask-api-gateway:v24 0.0s done
+#10 DONE 0.1s
++ docker build -t sheshavardhinikiaq/smarttask-auth-service:v24 ./auth-service_1784011000189
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 126B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:20-alpine
+#2 DONE 0.4s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 58B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#4 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 0.0s done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 774B done
+#5 DONE 0.0s
+
+#6 [2/4] WORKDIR /app
+#6 CACHED
+
+#7 [3/4] COPY . .
+#7 CACHED
+
+#8 [4/4] RUN npm install
+#8 CACHED
+
+#9 exporting to image
+#9 exporting layers done
+#9 exporting manifest sha256:6fea8eff56b860d1a77aa0d2e501054ac226a6933f3cec3476f8034acdaed3e8 done
+#9 exporting config sha256:07c16f631170f24d04f733bee6b38823ba5be2c30ac9ad2a13bea1c42b5d5f52 done
+#9 exporting attestation manifest sha256:3ee977238db80a98f8cebfea20a3207c2396b855a74f90de1c074097771c8ec7
+#9 exporting attestation manifest sha256:3ee977238db80a98f8cebfea20a3207c2396b855a74f90de1c074097771c8ec7 0.0s done
+#9 exporting manifest list sha256:74213b0f55baf5be9036db20ee940dff727412a7d43ac261dde978d3702fe81d 0.0s done
+#9 naming to docker.io/sheshavardhinikiaq/smarttask-auth-service:v24 done
+#9 unpacking to docker.io/sheshavardhinikiaq/smarttask-auth-service:v24 0.0s done
+#9 DONE 0.1s
++ docker build -t sheshavardhinikiaq/smarttask-task-service:v24 ./task-service
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 126B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:20-alpine
+#2 DONE 0.4s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 58B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#4 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 0.0s done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 772B done
+#5 DONE 0.0s
+
+#6 [3/4] COPY . .
+#6 CACHED
+
+#7 [2/4] WORKDIR /app
+#7 CACHED
+
+#8 [4/4] RUN npm install
+#8 CACHED
+
+#9 exporting to image
+#9 exporting layers done
+#9 exporting manifest sha256:1212609afe7bb8f9c9293abd20867b23173ef443f4502e4e14ebe0cb986b5fe4 done
+#9 exporting config sha256:70a009f3c0d332330fcd0b9ba8639dc4e561473434b66f8f7c33ae2b38ed802e done
+#9 exporting attestation manifest sha256:7e3b14798dc4449950a0e845f6afb9113c29dda29781d87fd5353a68500d8cd6
+#9 exporting attestation manifest sha256:7e3b14798dc4449950a0e845f6afb9113c29dda29781d87fd5353a68500d8cd6 0.0s done
+#9 exporting manifest list sha256:efae28fcbef7260107d32cc0eb9b52ea9c39a2af87986ceb60508ab9ea241de1 0.0s done
+#9 naming to docker.io/sheshavardhinikiaq/smarttask-task-service:v24 done
+#9 unpacking to docker.io/sheshavardhinikiaq/smarttask-task-service:v24 0.0s done
+#9 DONE 0.1s
++ docker build -t sheshavardhinikiaq/smarttask-notification-service:v24 ./notification-service
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 126B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:20-alpine
+#2 DONE 0.4s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 58B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#4 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 0.0s done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 630B done
+#5 DONE 0.0s
+
+#6 [2/4] WORKDIR /app
+#6 CACHED
+
+#7 [3/4] COPY . .
+#7 CACHED
+
+#8 [4/4] RUN npm install
+#8 CACHED
+
+#9 exporting to image
+#9 exporting layers done
+#9 exporting manifest sha256:96998857e3808e83bb6eb3fe1b4231eb80500bf0549bbbb98464513e49f838eb done
+#9 exporting config sha256:6fd2a37c6d9d94ff6e320a4e08777f10ccf4348e0f2b1bbd2f715be6c6fa5570 done
+#9 exporting attestation manifest sha256:392d779ea0d541cb0cd08472ed381e1ecb38ccc28dcb7cdde0e46bc0ef695188
+#9 exporting attestation manifest sha256:392d779ea0d541cb0cd08472ed381e1ecb38ccc28dcb7cdde0e46bc0ef695188 0.0s done
+#9 exporting manifest list sha256:95bcdf538d658c829ce1b3f0b52195df45ab41ad05e098fcea2c18cd7a9c7982 0.0s done
+#9 naming to docker.io/sheshavardhinikiaq/smarttask-notification-service:v24 done
+#9 unpacking to docker.io/sheshavardhinikiaq/smarttask-notification-service:v24 0.0s done
+#9 DONE 0.1s
++ docker build -t sheshavardhinikiaq/smarttask-report-service:v24 ./report-service
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 126B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:20-alpine
+#2 DONE 0.4s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 58B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#4 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 0.0s done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 611B done
+#5 DONE 0.0s
+
+#6 [2/4] WORKDIR /app
+#6 CACHED
+
+#7 [3/4] COPY . .
+#7 CACHED
+
+#8 [4/4] RUN npm install
+#8 CACHED
+
+#9 exporting to image
+#9 exporting layers done
+#9 exporting manifest sha256:ee7dba2b10fdb1cc7deff99d44a36c05a61e3966193c6133a6fef4cd00a83bff done
+#9 exporting config sha256:d4b9d3862131792c761f251d150d826f3e2cca9e34c0c7116f901d40ec09455a done
+#9 exporting attestation manifest sha256:b39a166c96ed14e35929996b80db7d26fbc646ffa2934e6ab05ebb8bde84eede
+#9 exporting attestation manifest sha256:b39a166c96ed14e35929996b80db7d26fbc646ffa2934e6ab05ebb8bde84eede 0.0s done
+#9 exporting manifest list sha256:8e22339e6dc8fd18e1aa987a1ee5da1caa16e272bf7647d26a1ede2644b05f51 0.0s done
+#9 naming to docker.io/sheshavardhinikiaq/smarttask-report-service:v24 done
+#9 unpacking to docker.io/sheshavardhinikiaq/smarttask-report-service:v24 0.0s done
+#9 DONE 0.1s
++ docker tag sheshavardhinikiaq/smarttask-api-gateway:v24 sheshavardhinikiaq/smarttask-api-gateway:latest
++ docker tag sheshavardhinikiaq/smarttask-auth-service:v24 sheshavardhinikiaq/smarttask-auth-service:latest
++ docker tag sheshavardhinikiaq/smarttask-task-service:v24 sheshavardhinikiaq/smarttask-task-service:latest
++ docker tag sheshavardhinikiaq/smarttask-notification-service:v24 sheshavardhinikiaq/smarttask-notification-service:latest
++ docker tag sheshavardhinikiaq/smarttask-report-service:v24 sheshavardhinikiaq/smarttask-report-service:latest
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push to Docker Hub)
+[Pipeline] withCredentials
+Masking supported pattern matches of $DOCKER_PASS
+[Pipeline] {
+[Pipeline] sh
++ echo ****
++ docker login -u sheshavardhinikiaq --password-stdin
+Login Succeeded
++ docker push sheshavardhinikiaq/smarttask-api-gateway:v24
+The push refers to repository [docker.io/sheshavardhinikiaq/smarttask-api-gateway]
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+44136fa355b3: Already exists
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+15e4d03ca20c: Waiting
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+15e4d03ca20c: Waiting
+4feea04c1543: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+15e4d03ca20c: Waiting
+d84b8dc83e98: Waiting
+4feea04c1543: Layer already exists
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+d84b8dc83e98: Waiting
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+15e4d03ca20c: Waiting
+d84b8dc83e98: Waiting
+eceff28365ca: Waiting
+15e4d03ca20c: Waiting
+d84b8dc83e98: Waiting
+f7bf8e5eec88: Waiting
+6a0ac1617861: Layer already exists
+b2cbbfe903b0: Layer already exists
+fff4e2c1b189: Layer already exists
+15e4d03ca20c: Waiting
+d84b8dc83e98: Layer already exists
+f7bf8e5eec88: Waiting
+eceff28365ca: Waiting
+f7bf8e5eec88: Layer already exists
+eceff28365ca: Waiting
+eceff28365ca: Layer already exists
+15e4d03ca20c: Pushed
+v24: digest: sha256:3984503019f65742cba78753ba26d7ea4178d94a0c9b22ceb6f4f76d4ed9116a size: 856
++ docker push sheshavardhinikiaq/smarttask-auth-service:v24
+The push refers to repository [docker.io/sheshavardhinikiaq/smarttask-auth-service]
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+44136fa355b3: Already exists
+4feea04c1543: Layer already exists
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+f8b20e24675f: Waiting
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+f8b20e24675f: Waiting
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+f8b20e24675f: Waiting
+f8b20e24675f: Waiting
+c94e6e6952e8: Waiting
+d84b8dc83e98: Waiting
+6a0ac1617861: Layer already exists
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+c94e6e6952e8: Waiting
+d84b8dc83e98: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+f8b20e24675f: Waiting
+f8b20e24675f: Waiting
+c94e6e6952e8: Waiting
+d84b8dc83e98: Waiting
+bb18a81d2d62: Waiting
+b2cbbfe903b0: Layer already exists
+fff4e2c1b189: Waiting
+f8b20e24675f: Waiting
+c94e6e6952e8: Layer already exists
+d84b8dc83e98: Layer already exists
+bb18a81d2d62: Waiting
+fff4e2c1b189: Layer already exists
+bb18a81d2d62: Waiting
+f8b20e24675f: Waiting
+f8b20e24675f: Waiting
+bb18a81d2d62: Layer already exists
+f8b20e24675f: Pushed
+v24: digest: sha256:74213b0f55baf5be9036db20ee940dff727412a7d43ac261dde978d3702fe81d size: 856
++ docker push sheshavardhinikiaq/smarttask-task-service:v24
+The push refers to repository [docker.io/sheshavardhinikiaq/smarttask-task-service]
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Already exists
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+b2cbbfe903b0: Waiting
+58efbfb9bbe9: Waiting
+fff4e2c1b189: Waiting
+4feea04c1543: Layer already exists
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+58efbfb9bbe9: Waiting
+fff4e2c1b189: Waiting
+6a0ac1617861: Waiting
+d84b8dc83e98: Waiting
+6a0ac1617861: Layer already exists
+b2cbbfe903b0: Waiting
+58efbfb9bbe9: Waiting
+fff4e2c1b189: Waiting
+58efbfb9bbe9: Waiting
+fff4e2c1b189: Waiting
+d84b8dc83e98: Waiting
+b2cbbfe903b0: Waiting
+b2cbbfe903b0: Waiting
+58efbfb9bbe9: Waiting
+fff4e2c1b189: Waiting
+d84b8dc83e98: Waiting
+6544ed3c5651: Waiting
+b2cbbfe903b0: Layer already exists
+e2750b1713c3: Waiting
+58efbfb9bbe9: Waiting
+fff4e2c1b189: Layer already exists
+d84b8dc83e98: Waiting
+6544ed3c5651: Waiting
+e2750b1713c3: Waiting
+58efbfb9bbe9: Waiting
+d84b8dc83e98: Layer already exists
+6544ed3c5651: Layer already exists
+e2750b1713c3: Waiting
+e2750b1713c3: Layer already exists
+58efbfb9bbe9: Pushed
+v24: digest: sha256:efae28fcbef7260107d32cc0eb9b52ea9c39a2af87986ceb60508ab9ea241de1 size: 856
++ docker push sheshavardhinikiaq/smarttask-notification-service:v24
+The push refers to repository [docker.io/sheshavardhinikiaq/smarttask-notification-service]
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Layer already exists
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Already exists
+fff4e2c1b189: Waiting
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+d84b8dc83e98: Waiting
+fff4e2c1b189: Waiting
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+d84b8dc83e98: Waiting
+8c09e95dccb1: Waiting
+8c09e95dccb1: Waiting
+fff4e2c1b189: Waiting
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+d84b8dc83e98: Waiting
+d84b8dc83e98: Layer already exists
+5e8449d7b268: Waiting
+7229e288f03d: Waiting
+fff4e2c1b189: Layer already exists
+6a0ac1617861: Waiting
+b2cbbfe903b0: Layer already exists
+7229e288f03d: Waiting
+6a0ac1617861: Waiting
+5e8449d7b268: Waiting
+7229e288f03d: Waiting
+6a0ac1617861: Waiting
+5e8449d7b268: Waiting
+5e8449d7b268: Layer already exists
+7229e288f03d: Layer already exists
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Layer already exists
+8c09e95dccb1: Pushed
+v24: digest: sha256:95bcdf538d658c829ce1b3f0b52195df45ab41ad05e098fcea2c18cd7a9c7982 size: 856
++ docker push sheshavardhinikiaq/smarttask-report-service:v24
+The push refers to repository [docker.io/sheshavardhinikiaq/smarttask-report-service]
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Already exists
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+4feea04c1543: Layer already exists
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+bfe53cc67a61: Waiting
+b2cbbfe903b0: Waiting
+bfe53cc67a61: Waiting
+fff4e2c1b189: Waiting
+6a0ac1617861: Waiting
+fff4e2c1b189: Waiting
+d84b8dc83e98: Waiting
+6a0ac1617861: Layer already exists
+b2cbbfe903b0: Waiting
+bfe53cc67a61: Waiting
+bfe53cc67a61: Waiting
+fff4e2c1b189: Waiting
+d84b8dc83e98: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+d84b8dc83e98: Waiting
+b2cbbfe903b0: Waiting
+bfe53cc67a61: Waiting
+d5aafbf245b7: Waiting
+b2cbbfe903b0: Layer already exists
+c66e0ba191c7: Waiting
+bfe53cc67a61: Waiting
+fff4e2c1b189: Layer already exists
+d84b8dc83e98: Layer already exists
+bfe53cc67a61: Waiting
+d5aafbf245b7: Waiting
+c66e0ba191c7: Waiting
+d5aafbf245b7: Waiting
+c66e0ba191c7: Waiting
+d5aafbf245b7: Layer already exists
+c66e0ba191c7: Layer already exists
+bfe53cc67a61: Pushed
+v24: digest: sha256:8e22339e6dc8fd18e1aa987a1ee5da1caa16e272bf7647d26a1ede2644b05f51 size: 856
++ docker push sheshavardhinikiaq/smarttask-api-gateway:latest
+The push refers to repository [docker.io/sheshavardhinikiaq/smarttask-api-gateway]
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Layer already exists
+6a0ac1617861: Layer already exists
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+15e4d03ca20c: Waiting
+15e4d03ca20c: Waiting
+44136fa355b3: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+15e4d03ca20c: Already exists
+44136fa355b3: Waiting
+d84b8dc83e98: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+f7bf8e5eec88: Waiting
+44136fa355b3: Waiting
+d84b8dc83e98: Waiting
+44136fa355b3: Waiting
+d84b8dc83e98: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+f7bf8e5eec88: Waiting
+f7bf8e5eec88: Waiting
+44136fa355b3: Already exists
+d84b8dc83e98: Waiting
+eceff28365ca: Waiting
+b2cbbfe903b0: Layer already exists
+fff4e2c1b189: Waiting
+eceff28365ca: Waiting
+fff4e2c1b189: Layer already exists
+f7bf8e5eec88: Layer already exists
+d84b8dc83e98: Layer already exists
+eceff28365ca: Waiting
+eceff28365ca: Layer already exists
+latest: digest: sha256:3984503019f65742cba78753ba26d7ea4178d94a0c9b22ceb6f4f76d4ed9116a size: 856
++ docker push sheshavardhinikiaq/smarttask-auth-service:latest
+The push refers to repository [docker.io/sheshavardhinikiaq/smarttask-auth-service]
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+f8b20e24675f: Waiting
+44136fa355b3: Already exists
+4feea04c1543: Waiting
+6a0ac1617861: Layer already exists
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+f8b20e24675f: Waiting
+4feea04c1543: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+f8b20e24675f: Waiting
+4feea04c1543: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+f8b20e24675f: Already exists
+d84b8dc83e98: Waiting
+4feea04c1543: Layer already exists
+c94e6e6952e8: Waiting
+d84b8dc83e98: Waiting
+c94e6e6952e8: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+bb18a81d2d62: Waiting
+d84b8dc83e98: Waiting
+c94e6e6952e8: Waiting
+b2cbbfe903b0: Layer already exists
+fff4e2c1b189: Waiting
+bb18a81d2d62: Waiting
+d84b8dc83e98: Layer already exists
+c94e6e6952e8: Layer already exists
+fff4e2c1b189: Layer already exists
+bb18a81d2d62: Waiting
+bb18a81d2d62: Layer already exists
+latest: digest: sha256:74213b0f55baf5be9036db20ee940dff727412a7d43ac261dde978d3702fe81d size: 856
++ docker push sheshavardhinikiaq/smarttask-task-service:latest
+The push refers to repository [docker.io/sheshavardhinikiaq/smarttask-task-service]
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Layer already exists
+fff4e2c1b189: Waiting
+b2cbbfe903b0: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Layer already exists
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+fff4e2c1b189: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+b2cbbfe903b0: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Waiting
+58efbfb9bbe9: Waiting
+44136fa355b3: Already exists
+6544ed3c5651: Waiting
+d84b8dc83e98: Waiting
+fff4e2c1b189: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+b2cbbfe903b0: Waiting
+58efbfb9bbe9: Waiting
+6544ed3c5651: Waiting
+d84b8dc83e98: Waiting
+6544ed3c5651: Waiting
+d84b8dc83e98: Waiting
+fff4e2c1b189: Waiting
+b2cbbfe903b0: Waiting
+58efbfb9bbe9: Already exists
+e2750b1713c3: Waiting
+6544ed3c5651: Layer already exists
+d84b8dc83e98: Layer already exists
+fff4e2c1b189: Layer already exists
+b2cbbfe903b0: Layer already exists
+e2750b1713c3: Waiting
+e2750b1713c3: Layer already exists
+latest: digest: sha256:efae28fcbef7260107d32cc0eb9b52ea9c39a2af87986ceb60508ab9ea241de1 size: 856
++ docker push sheshavardhinikiaq/smarttask-notification-service:latest
+The push refers to repository [docker.io/sheshavardhinikiaq/smarttask-notification-service]
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+8c09e95dccb1: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+8c09e95dccb1: Already exists
+44136fa355b3: Already exists
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+d84b8dc83e98: Waiting
+7229e288f03d: Waiting
+4feea04c1543: Layer already exists
+6a0ac1617861: Layer already exists
+d84b8dc83e98: Waiting
+7229e288f03d: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+d84b8dc83e98: Waiting
+7229e288f03d: Waiting
+5e8449d7b268: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+5e8449d7b268: Waiting
+b2cbbfe903b0: Layer already exists
+fff4e2c1b189: Layer already exists
+d84b8dc83e98: Waiting
+7229e288f03d: Waiting
+d84b8dc83e98: Layer already exists
+7229e288f03d: Layer already exists
+5e8449d7b268: Waiting
+5e8449d7b268: Layer already exists
+latest: digest: sha256:95bcdf538d658c829ce1b3f0b52195df45ab41ad05e098fcea2c18cd7a9c7982 size: 856
++ docker push sheshavardhinikiaq/smarttask-report-service:latest
+The push refers to repository [docker.io/sheshavardhinikiaq/smarttask-report-service]
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Waiting
+bfe53cc67a61: Already exists
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+6a0ac1617861: Layer already exists
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+44136fa355b3: Waiting
+4feea04c1543: Waiting
+44136fa355b3: Already exists
+4feea04c1543: Waiting
+d5aafbf245b7: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+d84b8dc83e98: Waiting
+d84b8dc83e98: Waiting
+4feea04c1543: Waiting
+d5aafbf245b7: Waiting
+b2cbbfe903b0: Waiting
+fff4e2c1b189: Waiting
+d84b8dc83e98: Waiting
+c66e0ba191c7: Waiting
+4feea04c1543: Layer already exists
+d5aafbf245b7: Waiting
+b2cbbfe903b0: Layer already exists
+fff4e2c1b189: Waiting
+d5aafbf245b7: Layer already exists
+fff4e2c1b189: Layer already exists
+d84b8dc83e98: Layer already exists
+c66e0ba191c7: Waiting
+c66e0ba191c7: Waiting
+c66e0ba191c7: Layer already exists
+latest: digest: sha256:8e22339e6dc8fd18e1aa987a1ee5da1caa16e272bf7647d26a1ede2644b05f51 size: 856
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy to EC2)
+[Pipeline] sshagent
+[ssh-agent] Using credentials ubuntu
+$ ssh-agent
+SSH_AUTH_SOCK=/tmp/ssh-QL3Nwu5efLSf/agent.71048
+SSH_AGENT_PID=71052
+Running ssh-add (command line suppressed)
+[ssh-agent] Started.
+[Pipeline] {
+[Pipeline] sh
++ ssh -o StrictHostKeyChecking=no ubuntu@32.192.5.20 
+                      cd Smart-Task-Management-System-main
+                      git pull origin main
+                      docker compose pull
+                      docker compose down
+                      docker compose up -d --remove-orphans
+                      docker ps
+                    
+fatal: not a git repository (or any of the parent directories): .git
+no configuration file provided: not found
+no configuration file provided: not found
+no configuration file provided: not found
+CONTAINER ID   IMAGE                                  COMMAND                  CREATED         STATUS         PORTS                                                 NAMES
+b28c64c647c9   devops-workflow-frontend               "/docker-entrypoint.…"   8 minutes ago   Up 8 minutes   80/tcp, 0.0.0.0:5173->5173/tcp, [::]:5173->5173/tcp   frontend
+d1694cf1fe6a   devops-workflow-api-gateway            "docker-entrypoint.s…"   8 minutes ago   Up 8 minutes   0.0.0.0:5000->5000/tcp, [::]:5000->5000/tcp           api-gateway
+8f84162593d9   devops-workflow-notification-service   "docker-entrypoint.s…"   8 minutes ago   Up 8 minutes   0.0.0.0:5003->5003/tcp, [::]:5003->5003/tcp           notification-service
+99a9cb830dd6   devops-workflow-auth-service           "docker-entrypoint.s…"   8 minutes ago   Up 8 minutes   0.0.0.0:5001->5001/tcp, [::]:5001->5001/tcp           auth-service
+fc0cc22e86d2   devops-workflow-task-service           "docker-entrypoint.s…"   8 minutes ago   Up 8 minutes   0.0.0.0:5002->5002/tcp, [::]:5002->5002/tcp           task-service
+7c858840c48f   devops-workflow-report-service         "docker-entrypoint.s…"   8 minutes ago   Up 8 minutes   0.0.0.0:5004->5004/tcp, [::]:5004->5004/tcp           report-service
+4f0a75310c8e   mongo:7                                "docker-entrypoint.s…"   8 minutes ago   Up 8 minutes   0.0.0.0:27017->27017/tcp, [::]:27017->27017/tcp       mongodb
+[Pipeline] }
+$ ssh-agent -k
+unset SSH_AUTH_SOCK;
+unset SSH_AGENT_PID;
+echo Agent pid 71052 killed;
+[ssh-agent] Stopped.
+[Pipeline] // sshagent
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
