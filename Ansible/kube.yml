@@ -26,6 +26,7 @@
         groups: docker
         append: yes
 
+
     - name: Install kubectl
       get_url:
         url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
@@ -37,6 +38,9 @@
         url: "https://storage.googleapis.com/minikube/releases/{{ minikube_version }}/minikube-linux-amd64"
         dest: /usr/local/bin/minikube
         mode: '0755'
+
+    - name: Restart SSH Connection
+      meta: restart_connection
 
     - name: Start Minikube with Docker driver
       become_user: ubuntu
