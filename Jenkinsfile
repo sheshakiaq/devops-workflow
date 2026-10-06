@@ -146,22 +146,5 @@ pipeline{
 //       '''
 //     }
 //   }
-   post {
-
-        success {
-            echo 'DEPLOYMENT SUCCESSFUL'
-            echo 'Frontend deployed to S3 and CloudFront.'
-            echo 'Backend deployed using Docker Compose'
-        }
-
-        failure {
-            echo 'DEPLOYMENT FAILED'
-            echo 'Check the failed Jenkins stage.'
-        }
-
-        always {
-            echo 'Pipeline execution completed.'
-        }
-   }
   }
 }
