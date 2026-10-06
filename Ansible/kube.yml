@@ -34,8 +34,6 @@
     - name: Start Minikube with Docker driver
       become_user: ubuntu
       shell: minikube start --driver=docker --memory=4096 --cpus=2
-      args:
-        creates: /home/ubuntu/.minikube
 
     - name: Enable Minikube addons
       become_user: ubuntu
