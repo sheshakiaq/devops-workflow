@@ -8,7 +8,7 @@ pipeline {
         DOCKER_HUB_USER = 'your-dockerhub-user'
         DOCKER_TAG = "v${BUILD_NUMBER}"
         
-        EC2_HOST = '3.81.215.233'
+        EC2_HOST = '54.162.249.35'
         EC2_USER = 'ubuntu'
         
         HARBOR_HOST= "${EC2_HOST}"
@@ -31,8 +31,6 @@ pipeline {
               sshagent(['ec2-ssh-key']){
                 echo 'installing Software using ansible'
                 sh '''
-                  export
-                  ANSIBLE_HOST_KEY_CHECKING=False
                   ansible --version
                   ansible-playbook -i inventory.ini docker.yml
                   ansible-playbook -i inventory.ini kube.yml
