@@ -62,7 +62,3 @@ resource "aws_route_table_association" "sub-rt" {
   route_table_id = aws_route_table.rt.id
 }
 
-resource "aws_route_table_association" "igw-rt" {
-  gateway_id     = aws_internet_gateway.gw.id
-  route_table_id = aws_route_table.rt.id
-}
