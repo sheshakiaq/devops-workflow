@@ -102,8 +102,8 @@ pipeline{
             ).trim()
           }
         sh '''
-          echo "S3_BUCKET= {$env.S3_BUCKET}"
-          echo "CloudFront_ID= {$env.CLOUDFRONT_DIST_ID}"
+          echo "S3_BUCKET= ${env.S3_BUCKET}"
+          echo "CloudFront_ID= ${env.CLOUDFRONT_DIST_ID}"
         '''
       }
     }
