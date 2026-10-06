@@ -4,11 +4,18 @@ pipeline {
     environment {
         AWS_CREDENTIALS= credentials('aws-id')
         AWS_REGION= 'us-east-1'
-        DOCKER_HUB_USER = 'sheshavardhinikiaq'
+        
+        DOCKER_HUB_USER = 'your-dockerhub-user'
         DOCKER_TAG = "v${BUILD_NUMBER}"
-        EC2_HOST = '32.192.5.20'
-        //PEM_KEY_PATH= '/home/ubuntu/keys/backend.pem'
+        
+        EC2_HOST = 'YOUR_EC2_IP'
         EC2_USER = 'ubuntu'
+        
+        HARBOR_HOST= "${EC2_HOST}"
+        HARBOR_PROJECT= 'Devops-workflow'
+        
+        VAULT_ADDR= 'http:'
+        
     }
 
     stages {
@@ -17,6 +24,21 @@ pipeline {
                 checkout scm
             }
         }
+        
+        stage('Ansible'){
+          steps{
+            echo 'installing Software using ansible'
+            sh '''
+              cd Ansible
+              ansible --version
+              ansible -i inventory.ini docker.yml
+              ansible -i inventory.ini kube.yml
+              ansible -i inventory.ini harbor.yml
+              ansible -i inventory.ini vault.yml
+            '''
+          }
+        }
+
 
         stage('Build Backend Images') {
             steps {
@@ -62,24 +84,24 @@ pipeline {
             }
         }
 
-        stage('Deploy to EC2') {
-          steps {
-                sshagent(['ec2-ssh-key']) {
-                  sh '''
-                    ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "
-                      cd Smart-Task-Management-System-main
-                      git pull origin main
-                      docker compose pull
-                      docker compose down
-                      docker compose up -d --remove-orphans
-                      docker ps
-                    "
-                  '''
-                    
-                }
-            }
-
-            }
+//       stage('Deploy to EC2') {
+//          steps {
+//                sshagent(['ec2-ssh-key']) {
+//                  sh '''
+//                    ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "
+//                      cd Smart-Task-Management-System-main
+//                      git pull origin main
+//                      docker compose pull
+//                      docker compose down
+//                      docker compose up -d --remove-orphans
+//                      docker ps
+//                    "
+//                  '''
+//                    
+ //               }
+ //           }
+//
+//            }
     
 
     }
