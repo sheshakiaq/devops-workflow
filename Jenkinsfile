@@ -89,7 +89,7 @@ pipeline{
     stage('Terraform Outputs'){
       steps{
         echo 'Mentioning terrafrom Variables...'
-        dir('terrform'){
+        dir('terraform'){
           script {
             env.S3_BUCKET= sh(
               script: "terraform output -raw s3_bucket_name", 
