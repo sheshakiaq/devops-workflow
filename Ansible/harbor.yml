@@ -1,6 +1,6 @@
 ---
 - name: Install Harbor
-  hosts: harbor-soft
+  hosts: harbor-server
   become: yes
   gather_facts: yes
 
