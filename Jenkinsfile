@@ -7,8 +7,6 @@ pipeline{
   
   environment{
     AWS_REGION= 'us-east-1'
-    S3_BUCKET= 'devops-workflow-complete'
-    CLOUDFRONT_DIST_ID= 'E3K6CJLKU5897'
     AWS_CREDENTIALS= credentials('aws-id')
   }
   stages{
@@ -76,6 +74,39 @@ pipeline{
                 }
             }
         }
+    stage('using Terraform'){
+      steps{
+        echo 'Creating AWS Service by Terraform'
+        sh '''
+          cd terraform
+          terraform init
+          terraform plan
+          terraform apply -auto-approve
+        '''
+        echo 'Successfully Aws Services Created'
+      }
+    }
+    stage('Terraform Outputs'){
+      steps{
+        echo 'Mentioning terrafrom Variables...'
+        cd terraform
+          script {
+            env.S3_BUCKET= sh(
+              script: "terraform output -raw s3_bucket_name", 
+              returnStdout: true
+            ).trim()
+            
+            env.CLOUDFRONT_DIST_ID= sh(
+              script: "terraform output -raw cloudfront_dist_id", 
+              returnStdout: true
+            ).trim()
+          }
+        sh '''
+          echo "S3_BUCKET= {$S3_BUCKET}"
+          echo "CloudFront_ID= {$CLOUDFRONT_DIST_ID}"
+        '''
+      }
+    }
     stage('Build Frontend'){
       steps{
         echo 'Bulding React project'
@@ -107,14 +138,14 @@ pipeline{
        '''
      }
    }
-   stage('Build Docker Images'){
-     steps{
-       echo "Building Images"
-       sh '''
-         docker compose up -d
-       '''
-     }
-   }
+//   stage('Build Docker Images'){
+//     steps{
+//       echo "Building Images"
+//       sh '''
+//         docker compose up -d
+//       '''
+//     }
+//   }
    post {
 
         success {
