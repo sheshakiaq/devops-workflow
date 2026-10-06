@@ -89,7 +89,7 @@ pipeline{
     stage('Terraform Outputs'){
       steps{
         echo 'Mentioning terrafrom Variables...'
-        sh 'cd terraform'
+        dir('terrform'){
           script {
             env.S3_BUCKET= sh(
               script: "terraform output -raw s3_bucket_name", 
@@ -100,9 +100,11 @@ pipeline{
               script: "terraform output -raw cloudfront_dist_id", 
               returnStdout: true
             ).trim()
+         
+            echo "S3_BUCKET= ${env.S3_BUCKET}"
+            echo "CLOUDFRONT_DIST_ID= ${env.CLOUDFRONT_DIST_ID}"
           }
-        echo "S3_BUCKET= ${env.S3_BUCKET}"
-        echo "CLOUDFRONT_DIST_ID= ${env.CLOUDFRONT_DIST_ID}"
+        }
       }
     }
     stage('Build Frontend'){
