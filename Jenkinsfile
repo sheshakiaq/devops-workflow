@@ -146,7 +146,7 @@ pipeline{
 //       '''
 //     }
 //   }
-  post {
+   post {
 
         success {
             echo 'DEPLOYMENT SUCCESSFUL'
@@ -162,6 +162,6 @@ pipeline{
         always {
             echo 'Pipeline execution completed.'
         }
-  }
+   }
   }
 }
