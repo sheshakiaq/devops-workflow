@@ -1,8 +1,8 @@
 ---
-- name: Install Docker, Docker Compose 
-  hosts: docker
+- name: Install Docker, Docker Compose
+  hosts: docker-server
   become: yes
-  
+
   tasks:
 
     - name: Remove old Docker packages
