@@ -6,18 +6,9 @@
     minikube_version: "v1.33.1"
     kubectl_version: "v1.30.0"
   tasks:
-    - name: Update apt
-      apt:
-        update_cache: yes
-
     - name: Install dependencies
       apt:
         name: [curl, wget, apt-transport-https, conntrack]
-        state: present
-
-    - name: Install Docker
-      apt:
-        name: docker.io
         state: present
 
     - name: Add ubuntu user to docker group
@@ -39,8 +30,6 @@
         dest: /usr/local/bin/minikube
         mode: '0755'
 
-    - name: Restart SSH Connection
-      meta: restart_connection
 
     - name: Start Minikube with Docker driver
       become_user: ubuntu
