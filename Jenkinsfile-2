@@ -31,10 +31,10 @@ pipeline {
             sh '''
               cd Ansible
               ansible --version
-              ansible -i inventory.ini docker.yml
-              ansible -i inventory.ini kube.yml
-              ansible -i inventory.ini harbor.yml
-              ansible -i inventory.ini vault.yml
+              ansible-playbook -i inventory.ini docker.yml
+              ansible-playbook -i inventory.ini kube.yml
+              ansible-playbook -i inventory.ini harbor.yml
+              ansible-playbook -i inventory.ini vault.yml
             '''
           }
         }
