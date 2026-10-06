@@ -27,15 +27,20 @@ pipeline {
         
         stage('Ansible'){
           steps{
-            echo 'installing Software using ansible'
-            sh '''
-              cd Ansible
-              ansible --version
-              ansible-playbook -i inventory.ini docker.yml
-              ansible-playbook -i inventory.ini kube.yml
-              ansible-playbook -i inventory.ini harbor.yml
-              ansible-playbook -i inventory.ini vault.yml
-            '''
+            dir('Ansible'){
+              sshagent(['ec2-ssh-key']){
+                echo 'installing Software using ansible'
+                sh '''
+                  ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "
+                  
+                    ansible --version
+                    ansible-playbook -i inventory.ini docker.yml
+                    ansible-playbook -i inventory.ini kube.yml
+                    ansible-playbook -i inventory.ini harbor.yml
+                    ansible-playbook -i inventory.ini vault.yml
+                '''
+              }
+            }
           }
         }
 
