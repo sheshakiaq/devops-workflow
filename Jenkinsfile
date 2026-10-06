@@ -121,7 +121,7 @@ pipeline{
          echo 'updating S3 Bucket'
        sh ''' 
          aws s3 sync frontend/dist/ \
-         s3://${env.S3_BUCKET}/ \
+         s3://${S3_BUCKET}/ \
          --delete \
          --region ${AWS_REGION}
        '''
@@ -133,7 +133,7 @@ pipeline{
        echo 'Deploying...'
        sh ''' 
          aws cloudfront create-invalidation \
-         --distribution-id ${env.CLOUDFRONT_DIST_ID} \
+         --distribution-id ${CLOUDFRONT_DIST_ID} \
          --paths "/*"
        '''
      }
