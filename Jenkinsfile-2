@@ -31,6 +31,8 @@ pipeline {
               sshagent(['ec2-ssh-key']){
                 echo 'installing Software using ansible'
                 sh '''
+                  export
+                  ANSIBLE_HOST_KEY_CHECKING=False
                   ansible --version
                   ansible-playbook -i inventory.ini docker.yml
                   ansible-playbook -i inventory.ini kube.yml
