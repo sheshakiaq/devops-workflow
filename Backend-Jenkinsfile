@@ -53,7 +53,7 @@ pipeline {
                         sh """
                             ${scannerhome}/bin/sonar-scanner \
                             -Dsonar.projectKey=dev-backend  \
-                            -Dsonar.sources= api-gateway_1784010924579,auth-service_1784011000189,notification-service,report-service,task-service
+                            -Dsonar.sources=api-gateway_1784010924579,auth-service_1784011000189,notification-service,report-service,task-service
 
                         """
                         }
