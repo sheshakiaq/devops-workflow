@@ -19,7 +19,7 @@ pipeline {
         HARBOR_HOST = "${EC2_HOST}"
         HARBOR_PROJECT = 'Dev-workflow'
         
-        VAULT_ADDR = 'http://54.162.192.153:8200'
+        VAULT_ADDR = 'https://54.162.192.153:8200'
         VAULT_HARBOR_PATH = '/v1/secret/data/dev-workflow'
         VAULT_APP_PATH = 'secret/data/smarttask/application'
     }
