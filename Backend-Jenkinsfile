@@ -80,7 +80,7 @@ pipeline {
 
                         env.HARBOR_USER = sh(
                             script: '''
-                                curl -sS --fail \
+                                curl -sS -k --fail \
                                 -H "X-Vault-Token: $VAULT_TOKEN" \
                                 "$VAULT_ADDR/$VAULT_HARBOR_PATH" |
                                 jq -r '.data.data.username'
@@ -91,7 +91,7 @@ pipeline {
 
                         env.HARBOR_PASS = sh(
                             script: '''
-                                curl -sS --fail \
+                                curl -sS -k --fail \
                                 -H "X-Vault-Token: $VAULT_TOKEN" \
                                 "$VAULT_ADDR/$VAULT_HARBOR_PATH" |
                                 jq -r '.data.data.password'
