@@ -34,7 +34,6 @@ pipeline {
                   ansible --version
                   ansible-playbook -i inventory.ini docker.yml
                   ansible-playbook -i inventory.ini kube.yml
-                  ansible-playbook -i inventory.ini harbor.yml
                   ansible-playbook -i inventory.ini vault.yml
                   
                 '''
