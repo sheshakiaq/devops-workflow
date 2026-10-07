@@ -236,7 +236,7 @@ pipeline {
         
         stage('Deploy in Kubernetes'){
           steps{
-            dir(kubernetes){
+            dir('kubernetes'){
               sshagent(['ec2-ssh-key']){
                 sh """
                   ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "
