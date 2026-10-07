@@ -5,10 +5,10 @@ pipeline {
         AWS_CREDENTIALS= credentials('aws-id')
         AWS_REGION= 'us-east-1'
         
-        DOCKER_HUB_USER = 'your-dockerhub-user'
+        DOCKER_HUB_USER = 'sheshavardhinikiaq'
         DOCKER_TAG = "v${BUILD_NUMBER}"
         
-        EC2_HOST = '54.162.249.35'
+        EC2_HOST = '54.162.192.153'
         EC2_USER = 'ubuntu'
         
         HARBOR_HOST= "${EC2_HOST}"
@@ -34,7 +34,7 @@ pipeline {
                   ansible --version
                   ansible-playbook -i inventory.ini docker.yml
                   ansible-playbook -i inventory.ini kube.yml
-                  ansible-playbook -i inventory.ini harbor.yml
+                  //ansible-playbook -i inventory.ini harbor.yml
                   ansible-playbook -i inventory.ini vault.yml
                   
                 '''
