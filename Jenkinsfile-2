@@ -101,7 +101,6 @@ pipeline {
                     docker push $DOCKER_HUB_USER/smarttask-task-service:$DOCKER_TAG
                     docker push $DOCKER_HUB_USER/smarttask-notification-service:$DOCKER_TAG
                     docker push $DOCKER_HUB_USER/smarttask-report-service:$DOCKER_TAG
-                    docker push $DOCKER_HUB_USER/mongo:7:$DOCKER_TAG
                     
                     docker push $DOCKER_HUB_USER/smarttask-api-gateway:latest
                     docker push $DOCKER_HUB_USER/smarttask-auth-service:latest
