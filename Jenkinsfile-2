@@ -84,6 +84,7 @@ pipeline {
                     docker tag $DOCKER_HUB_USER/smarttask-notification-service:$DOCKER_TAG $DOCKER_HUB_USER/smarttask-notification-service:latest
                     
                     docker tag $DOCKER_HUB_USER/smarttask-report-service:$DOCKER_TAG $DOCKER_HUB_USER/smarttask-report-service:latest
+                    
                     '''
                 }
             }
@@ -100,6 +101,7 @@ pipeline {
                     docker push $DOCKER_HUB_USER/smarttask-task-service:$DOCKER_TAG
                     docker push $DOCKER_HUB_USER/smarttask-notification-service:$DOCKER_TAG
                     docker push $DOCKER_HUB_USER/smarttask-report-service:$DOCKER_TAG
+                    docker push $DOCKER_HUB_USER/mongo:7:$DOCKER_TAG
                     
                     docker push $DOCKER_HUB_USER/smarttask-api-gateway:latest
                     docker push $DOCKER_HUB_USER/smarttask-auth-service:latest
@@ -232,25 +234,24 @@ pipeline {
                 '''
             }
         }
+        
+        stage('Deploy in Kubernetes'){
+          steps{
+            sh """
+             cd kubernetes
+             kubectl apply -f namespace.yml
+             kubectl apply -f config.yaml
+             kubectl apply -f secret.yml
+             kubectl apply -f mongodb.yml
+             kubectl apply -f service.yml
+             kubectl apply -f deployment.yml
+             
+             
+            kubectl get all
+            """
+          }
+        }
     }
   } 
-//       stage('Deploy to EC2') {
-//          steps {
-//                sshagent(['ec2-ssh-key']) {
-//                  sh '''
-//                    ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "
-//                      cd Smart-Task-Management-System-main
-//                      git pull origin main
-//                      docker compose pull
-//                      docker compose down
-//                      docker compose up -d --remove-orphans
-//                      docker ps
-//                    "
-//                  '''
-//                    
- //               }
- //           }
-//
-//            }
-    
+
 
