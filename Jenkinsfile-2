@@ -236,13 +236,15 @@ pipeline {
         
         stage('Deploy in Kubernetes'){
           steps{
-            dir('kubernetes'){
               sshagent(['ec2-ssh-key']){
                 sh """
                   ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "
                   minikube version
                   minikube start
                   minikube status
+                  
+                  git clone https://github.com/sheshakiaq/devops-workflow.git
+                  cd kubernetes
                   
                   kubectl apply -f namespace.yml
                   kubectl apply -f config.yaml
@@ -254,7 +256,6 @@ pipeline {
                   kubectl get all
                   "
                 """
-                }
             }
           }
         }
