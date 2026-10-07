@@ -46,14 +46,14 @@ pipeline {
                 echo 'Running SonarQube analysis...'
 
                 script {
-                   def scannerhome = tool( name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation')
-                    
+                   def scannerHome = tool( name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation')
+                    echo "SonarScanner Home: ${scanerHome}"
                     withSonarQubeEnv('sonar-scanner'){
                       withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
                         sh '''
-                            ${scannerhome}/bin/sonar-scanner \
+                            ${scannerHome}/bin/sonar-scanner \
                             -Dsonar.projectKey=dev-backend  \
-                            -Dsonar.sources=api-gateway_1784010924579,auth-service_1784011000189,notification-service,report-service,task-service
+                            -Dsonar.sources= api-gateway_1784010924579,auth-service_1784011000189,notification-service,report-service,task-service
 
                         '''
                         }
