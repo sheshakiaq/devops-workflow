@@ -1,0 +1,152 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: report-service
+  namespace: dev-workflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: report-service
+  template:
+    metadata:
+      labels:
+        app: report-service
+    spec:
+      imagePullSecrets:
+        - name: harbor-registry
+      containers:
+        - name: report-service
+          image: ${HARBOR_HOST}/dev-workflow/smarttask-report-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5004
+          envFrom:
+            - configMapRef:
+                name: dev-workflow-config
+            - secretRef:
+                name: dev-workflow-secret
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service
+  namespace: dev-workflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-service
+  template:
+    metadata:
+      labels:
+        app: notification-service
+    spec:
+      imagePullSecrets:
+        - name: harbor-registry
+      containers:
+        - name: notification-service
+          image: ${HARBOR_HOST}/dev-workflow/smarttask-notification-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5003
+          envFrom:
+            - configMapRef:
+                name: dev-workflow-config
+            - secretRef:
+                name: dev-workflow-secret
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: task-service
+  namespace: dev-workflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: task-service
+  template:
+    metadata:
+      labels:
+        app: task-service
+    spec:
+      imagePullSecrets:
+        - name: harbor-registry
+      containers:
+        - name: task-service
+          image: ${HARBOR_HOST}/dev-workflow/smarttask-task-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5002
+          envFrom:
+            - configMapRef:
+                name: dev-workflow-config
+            - secretRef:
+                name: dev-workflow-secret
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+  namespace: dev-workflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      imagePullSecrets:
+        - name: harbor-registry
+      containers:
+        - name: auth-service
+          image: ${HARBOR_HOST}/dev-workflow/smarttask-auth-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5001
+          envFrom:
+            - configMapRef:
+                name: dev-workflow-config
+            - secretRef:
+                name: dev-workflow-secret
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  namespace: dev-workflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      imagePullSecrets:
+        - name: harbor-registry
+      containers:
+        - name: api-gateway
+          image: ${HARBOR_HOST}/dev-workflow/smarttask-api-gateway:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: dev-workflow-config
+            - secretRef:
+                name: dev-workflow-secret
+
