@@ -47,7 +47,7 @@ pipeline {
 
                 script {
                    def scannerHome = tool( name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation')
-                    echo "SonarScanner Home: ${scanerHome}"
+                    echo "SonarScanner Home: ${scannerHome}"
                     withSonarQubeEnv('sonar-scanner'){
                       withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
                         sh '''
