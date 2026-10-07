@@ -1,0 +1,222 @@
+pipeline {
+
+    agent any
+
+    tools {
+        nodejs 'Nodejs-Id'
+    }
+
+    environment {
+
+        AWS_REGION = 'us-east-1'
+        
+        DOCKER_HUB_USER = 'sheshavardhinikiaq'
+        DOCKER_TAG = "${BUILD_NUMBER}"
+
+        EC2_HOST = '54.162.192.153'
+        EC2_USER = 'ubuntu'
+
+        HARBOR_HOST = "${EC2_HOST}"
+        HARBOR_PROJECT = 'Dev-workflow'
+        
+        VAULT_ADDR = 'http://54.162.192.153:8200'
+        VAULT_HARBOR_PATH = 'secret/data/dev-workflow'
+        VAULT_APP_PATH = 'secret/data/smarttask/application'
+    }
+
+
+    stages {
+
+        stage('Checkout') {
+
+            steps {
+
+                echo 'Checking out source code...'
+
+                checkout scm
+
+            }
+        }
+
+
+        stage('SonarQube Analysis') {
+
+            steps {
+
+                echo 'Running SonarQube analysis...'
+
+                script {
+
+                    def scannerHome =
+                        tool 'sonar-scanner'
+
+                    withEnv([
+                        "PATH+SONAR=${scannerHome}/bin"
+                    ]) {
+
+                        sh '''
+                            sonar-scanner \
+                            -Dsonar.projectKey=devops-flow  \
+                            -Dsonar.sources=api-gateway_1784010924579,auth-service_1784011000189,notification-service,report-service,task-service
+
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Get Harbor Credentials from Vault') {
+
+            steps {
+
+                echo 'Getting Harbor credentials from HashiCorp Vault...'
+
+                withCredentials([
+                    string(
+                        credentialsId: 'vault-token',
+                        variable: 'VAULT_TOKEN'
+                    )
+                ]) {
+
+                    script {
+
+                        env.HARBOR_USER = sh(
+                            script: '''
+                                curl -sS --fail \
+                                -H "X-Vault-Token: $VAULT_TOKEN" \
+                                "$VAULT_ADDR/$VAULT_HARBOR_PATH" |
+                                jq -r '.data.data.username'
+                            ''',
+                            returnStdout: true
+                        ).trim()
+
+
+                        env.HARBOR_PASS = sh(
+                            script: '''
+                                curl -sS --fail \
+                                -H "X-Vault-Token: $VAULT_TOKEN" \
+                                "$VAULT_ADDR/$VAULT_HARBOR_PATH" |
+                                jq -r '.data.data.password'
+                            ''',
+                            returnStdout: true
+                        ).trim()
+                    }
+                }
+
+                echo 'Harbor credentials retrieved from Vault.'
+            }
+        }
+        stage('Login to Harbor') {
+
+            steps {
+
+                echo 'Logging into Harbor...'
+
+                sh '''
+                    set -e
+
+                    echo "$HARBOR_PASS" | docker login \
+                        "$HARBOR_HOST" \
+                        -u "$HARBOR_USER" \
+                        --password-stdin
+
+                    echo "Harbor login successful."
+                '''
+            }
+        }
+        stage('Tag Images for Harbor') {
+
+            steps {
+
+                echo 'Tagging Docker images for Harbor...'
+
+                sh '''
+                    set -e
+
+                    docker tag \
+                        ${DOCKER_HUB_USER}/smarttask-api-gateway:${DOCKER_TAG} \
+                        ${HARBOR_HOST}/${HARBOR_PROJECT}/smarttask-api-gateway:${DOCKER_TAG}
+
+                    docker tag \
+                        ${DOCKER_HUB_USER}/smarttask-auth-service:${DOCKER_TAG} \
+                        ${HARBOR_HOST}/${HARBOR_PROJECT}/smarttask-auth-service:${DOCKER_TAG}
+
+                    docker tag \
+                        ${DOCKER_HUB_USER}/smarttask-task-service:${DOCKER_TAG} \
+                        ${HARBOR_HOST}/${HARBOR_PROJECT}/smarttask-task-service:${DOCKER_TAG}
+
+                    docker tag \
+                        ${DOCKER_HUB_USER}/smarttask-notification-service:${DOCKER_TAG} \
+                        ${HARBOR_HOST}/${HARBOR_PROJECT}/smarttask-notification-service:${DOCKER_TAG}
+
+                    docker tag \
+                        ${DOCKER_HUB_USER}/smarttask-report-service:${DOCKER_TAG} \
+                        ${HARBOR_HOST}/${HARBOR_PROJECT}/smarttask-report-service:${DOCKER_TAG}
+
+                    echo "Images tagged for Harbor."
+                '''
+            }
+        }
+        stage('Push Images to Harbor') {
+
+            steps {
+
+                echo 'Pushing backend images to Harbor...'
+
+                sh '''
+                    set -e
+
+                    docker push \
+                        ${HARBOR_HOST}/${HARBOR_PROJECT}/smarttask-api-gateway:${DOCKER_TAG}
+
+                    docker push \
+                        ${HARBOR_HOST}/${HARBOR_PROJECT}/smarttask-auth-service:${DOCKER_TAG}
+
+                    docker push \
+                        ${HARBOR_HOST}/${HARBOR_PROJECT}/smarttask-task-service:${DOCKER_TAG}
+
+                    docker push \
+                        ${HARBOR_HOST}/${HARBOR_PROJECT}/smarttask-notification-service:${DOCKER_TAG}
+
+                    docker push \
+                        ${HARBOR_HOST}/${HARBOR_PROJECT}/smarttask-report-service:${DOCKER_TAG}
+
+                    echo "All images pushed to Harbor successfully."
+                '''
+            }
+        }
+    }
+
+    post {
+
+        success {
+
+            echo '''
+            ========================================
+            PIPELINE SUCCESS
+            ========================================
+
+            Backend Docker images built.
+            Images pushed to Docker Hub.
+            Images pushed to Harbor.
+            Kubernetes deployment completed.
+            '''
+        }
+
+        failure {
+
+            echo '''
+            ========================================
+            PIPELINE FAILED
+            ========================================
+
+            Check the failed stage in Console Output.
+            '''
+        }
+
+        always {
+
+            echo "Build ${BUILD_NUMBER} completed."
+        }
+    }
+}
