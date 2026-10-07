@@ -17,10 +17,10 @@ pipeline {
         EC2_USER = 'ubuntu'
 
         HARBOR_HOST = "${EC2_HOST}"
-        HARBOR_PROJECT = 'Dev-workflow'
+        HARBOR_PROJECT = 'dev-workflow'
         
         VAULT_ADDR = 'https://54.162.192.153:8200'
-        VAULT_HARBOR_PATH = '/v1/secret/data/dev-workflow'
+        VAULT_HARBOR_PATH = 'v1/secret/data/dev-workflow'
         VAULT_APP_PATH = 'secret/data/smarttask/application'
     }
 
@@ -81,9 +81,9 @@ pipeline {
                         env.HARBOR_USER = sh(
                             script: """
                                 curl -sS -k --fail \
-                                -H "X-Vault-Token: $VAULT_TOKEN" \
-                                "$VAULT_ADDR/$VAULT_HARBOR_PATH" |
-                                jq -r '.data.username // .data.data.username'
+                                -H "X-Vault-Token: \${VAULT_TOKEN}" \
+                                "${VAULT_ADDR}/${VAULT_HARBOR_PATH}" \
+                                | jq -r '.data.data.username // .data.username'
                             """,
                             returnStdout: true
                         ).trim()
@@ -92,9 +92,9 @@ pipeline {
                         env.HARBOR_PASS = sh(
                             script: """
                                 curl -sS -k --fail \
-                                -H "X-Vault-Token: $VAULT_TOKEN" \
-                                "$VAULT_ADDR/$VAULT_HARBOR_PATH" |
-                                jq -r '.data.password // .data.data.password'
+                                -H "X-Vault-Token: \${VAULT_TOKEN}" \
+                                "${VAULT_ADDR}/${VAULT_HARBOR_PATH}" \
+                                | jq -r '.data.data.password // .data.password'
                             """,
                             returnStdout: true
                         ).trim()
