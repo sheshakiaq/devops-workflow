@@ -239,6 +239,8 @@ pipeline {
               sshagent(['ec2-ssh-key']){
                 sh """
                   ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "
+                  export
+                  HARBOR_HOST='${HARBOR_HOST}'
                   minikube version
                   minikube start
                   minikube status
@@ -252,7 +254,7 @@ pipeline {
                   kubectl apply -f secret.yml
                   kubectl apply -f mongodb.yml
                   kubectl apply -f service.yml
-                  kubectl apply -f deployment.yml
+                  envsubst < deployment.yml | kubectl apply -f -
                   
                   kubectl get all -n dev-workflow
                   "
