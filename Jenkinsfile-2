@@ -243,17 +243,18 @@ pipeline {
                   minikube start
                   minikube status
                   
+                  sudo rm -rf devops-workflow
                   git clone https://github.com/sheshakiaq/devops-workflow.git
                   cd devops-workflow/kubernetes
                   
                   kubectl apply -f namespace.yml
-                  kubectl apply -f configmap.yaml
+                  kubectl apply -f configmap.yml
                   kubectl apply -f secret.yml
                   kubectl apply -f mongodb.yml
                   kubectl apply -f service.yml
                   kubectl apply -f deployment.yml
                   
-                  kubectl get all
+                  kubectl get all -n dev-workflow
                   "
                 """
             }
