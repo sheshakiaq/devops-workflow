@@ -247,7 +247,7 @@ pipeline {
                   cd devops-workflow/kubernetes
                   
                   kubectl apply -f namespace.yml
-                  kubectl apply -f config.yaml
+                  kubectl apply -f configmap.yaml
                   kubectl apply -f secret.yml
                   kubectl apply -f mongodb.yml
                   kubectl apply -f service.yml
