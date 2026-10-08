@@ -239,10 +239,10 @@ pipeline {
               sshagent(['ec2-ssh-key']){
                 sh """
                   ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "
-                  export
-                  HARBOR_HOST='${HARBOR_HOST}'
-                  export
-                  DOCKER_TAG='v${BUILD_NUMBER}'
+                  export HARBOR_HOST= ${HARBOR_HOST}
+                  export DOCKER_TAG= v${BUILD_NUMBER}
+                  export HARBOR_USER= ${HARBOR_USER}
+                  export HARBOR_PASS= ${HARBOR_PASS}
                   minikube version
                   minikube start
                   minikube status
@@ -251,13 +251,21 @@ pipeline {
                   git clone https://github.com/sheshakiaq/devops-workflow.git
                   cd devops-workflow/kubernetes
                   
+                  kubectl create secret docker-registry harbor-registry \
+                  --docker-server=\${HARBOR_HOST} \
+                  --docker-username=\${HARBOR_USER} \
+                  --docker-password= \${HARBOR_PASS} \
+                  -n dev-workflow
+                  
                   kubectl apply -f namespace.yml
                   kubectl apply -f configmap.yml
                   kubectl apply -f secret.yml
                   kubectl apply -f mongodb.yml
                   kubectl apply -f service.yml
-                  envsubst '$HARBOR_HOST $DOCKER_TAG' < deployment.yml | kubectl apply -f -
+                  envsubst '\${HARBOR_HOST} \${DOCKER_TAG}' < deployment.yml | kubectl apply -f -
                   
+                  kubectl rollout restart deployment -n dev-workflow
+                  kubectl rollout status deployment -n dev-workflow --timeout=120s
                   kubectl get all -n dev-workflow
                   "
                 """
