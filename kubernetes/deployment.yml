@@ -17,7 +17,7 @@ spec:
         - name: harbor-registry
       containers:
         - name: report-service
-          image: ${HARBOR_HOST}/dev-workflow/smarttask-report-service:latest
+          image: ${HARBOR_HOST}/dev-workflow/smarttask-report-service:${DOCKER_TAG}
           imagePullPolicy: Always
           ports:
             - containerPort: 5004
@@ -47,7 +47,7 @@ spec:
         - name: harbor-registry
       containers:
         - name: notification-service
-          image: ${HARBOR_HOST}/dev-workflow/smarttask-notification-service:latest
+          image: ${HARBOR_HOST}/dev-workflow/smarttask-notification-service:${DOCKER_TAG}
           imagePullPolicy: Always
           ports:
             - containerPort: 5003
@@ -78,7 +78,7 @@ spec:
         - name: harbor-registry
       containers:
         - name: task-service
-          image: ${HARBOR_HOST}/dev-workflow/smarttask-task-service:latest
+          image: ${HARBOR_HOST}/dev-workflow/smarttask-task-service:${DOCKER_TAG}
           imagePullPolicy: Always
           ports:
             - containerPort: 5002
@@ -109,7 +109,7 @@ spec:
         - name: harbor-registry
       containers:
         - name: auth-service
-          image: ${HARBOR_HOST}/dev-workflow/smarttask-auth-service:latest
+          image: ${HARBOR_HOST}/dev-workflow/smarttask-auth-service:${DOCKER_TAG}
           imagePullPolicy: Always
           ports:
             - containerPort: 5001
@@ -140,7 +140,7 @@ spec:
         - name: harbor-registry
       containers:
         - name: api-gateway
-          image: ${HARBOR_HOST}/dev-workflow/smarttask-api-gateway:latest
+          image: ${HARBOR_HOST}/dev-workflow/smarttask-api-gateway:${DOCKER_TAG}
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
