@@ -241,6 +241,8 @@ pipeline {
                   ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "
                   export
                   HARBOR_HOST='${HARBOR_HOST}'
+                  export
+                  DOCKER_TAG='v${BUILD_NUMBER}'
                   minikube version
                   minikube start
                   minikube status
@@ -254,7 +256,7 @@ pipeline {
                   kubectl apply -f secret.yml
                   kubectl apply -f mongodb.yml
                   kubectl apply -f service.yml
-                  envsubst < deployment.yml | kubectl apply -f -
+                  envsubst '$HARBOR_HOST $DOCKER_TAG' < deployment.yml | kubectl apply -f -
                   
                   kubectl get all -n dev-workflow
                   "
