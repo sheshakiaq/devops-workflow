@@ -251,13 +251,17 @@ pipeline {
                   git clone https://github.com/sheshakiaq/devops-workflow.git
                   cd devops-workflow/kubernetes
                   
+                  kubectl delete namespace dev-workflow
+                  kubectl get namespace
+                  kubectl apply -f namespace.yml
+                  
                   kubectl create secret docker-registry harbor-registry \
                   --docker-server=${HARBOR_HOST} \
                   --docker-username=${HARBOR_USER} \
                   --docker-password=${HARBOR_PASS} \
                   -n dev-workflow --dry-run=client -o yaml | kubectl apply -f -
                   
-                  kubectl apply -f namespace.yml
+                  
                   kubectl apply -f configmap.yml
                   kubectl apply -f secret.yml
                   kubectl apply -f mongodb.yml
