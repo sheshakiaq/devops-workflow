@@ -123,6 +123,8 @@ spec:
               value: "mongodb://mongodb:27017/authdb"
             - name: JWT_SECRET
               value: "MySecret@123"
+            - name: JWT_EXPIRES_IN
+              value: "1d"
 ---
 apiVersion: apps/v1
 kind: Deployment
