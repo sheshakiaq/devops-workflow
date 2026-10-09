@@ -261,9 +261,6 @@ pipeline {
                   --docker-password=${HARBOR_PASS} \
                   -n dev-workflow --dry-run=client -o yaml | kubectl apply -f -
                   
-                  
-                  kubectl apply -f configmap.yml
-                  kubectl apply -f secret.yml
                   kubectl apply -f mongodb.yml
                   kubectl apply -f service.yml
                   envsubst '\\\$HARBOR_HOST \\\$DOCKER_TAG' < deployment.yml > parsed-deployment.yml
