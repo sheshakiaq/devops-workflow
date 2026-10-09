@@ -1,9 +1,26 @@
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongodb-pv
+  namespace: dev-workflow
+spec:
+  capacity: 
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
+  hostPath:
+  path: /mnt/mongodb-data
+
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mongodb-pvc
   namespace: dev-workflow
 spec:
+  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:
