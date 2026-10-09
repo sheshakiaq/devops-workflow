@@ -21,12 +21,13 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 5004
-          envFrom:
-            - configMapRef:
-                name: dev-workflow-config
-            - secretRef:
-                name: dev-workflow-secret
-
+          env:
+            - name: PORT
+              value: "5004"
+            - name: MONGO_URI
+              value: "mongodb://mongodb:27017/reportdb"
+            - name: JWT_SECRET
+              value: "MySecret@123"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -51,12 +52,13 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 5003
-          envFrom:
-            - configMapRef:
-                name: dev-workflow-config
-            - secretRef:
-                name: dev-workflow-secret
-
+          env:
+            - name: PORT
+              value: "5003"
+            - name: MONGO_URI
+              value: "mongodb://mongodb:27017/notificationdb"
+            - name: JWT_SECRET
+              value: "MySecret@123"
 
 ---
 apiVersion: apps/v1
@@ -82,12 +84,13 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 5002
-          envFrom:
-            - configMapRef:
-                name: dev-workflow-config
-            - secretRef:
-                name: dev-workflow-secret
-
+          env:
+            - name: PORT
+              value: "5002"
+            - name: MONGO_URI
+              value: "mongodb://mongodb:27017/taskdb"
+            - name: JWT_SECRET
+              value: "MySecret@123"
 
 ---
 apiVersion: apps/v1
@@ -113,13 +116,13 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 5001
-          envFrom:
-            - configMapRef:
-                name: dev-workflow-config
-            - secretRef:
-                name: dev-workflow-secret
-
-
+          env:
+            - name: PORT
+              value: "5001"
+            - name: MONGO_URI
+              value: "mongodb://mongodb:27017/authdb"
+            - name: JWT_SECRET
+              value: "MySecret@123"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -144,9 +147,12 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
-          envFrom:
-            - configMapRef:
-                name: dev-workflow-config
-            - secretRef:
-                name: dev-workflow-secret
-
+          env:
+            - name: PORT
+              value: "5000"
+            - name: AUTH_SERVICE_URL
+              value: "http://auth-service:5001"
+            - name: TASK_SERVICE_URL
+              value: "http://task-service:5002"
+            - name: JWT_SECRET
+              value: "MySecret@123"
