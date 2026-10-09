@@ -243,9 +243,9 @@ pipeline {
                   export DOCKER_TAG=v${BUILD_NUMBER}
                   export HARBOR_USER=${HARBOR_USER}
                   export HARBOR_PASS=${HARBOR_PASS}
-                  minikube version
-                  minikube start
-                  minikube status
+                  
+                  kubectl get nodes
+                  kubectl cluster-info
                   
                   sudo rm -rf devops-workflow
                   git clone https://github.com/sheshakiaq/devops-workflow.git
