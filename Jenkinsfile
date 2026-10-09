@@ -138,13 +138,13 @@ pipeline{
        '''
      }
    }
-//   stage('Build Docker Images'){
-//     steps{
-//       echo "Building Images"
-//       sh '''
-//         docker compose up -d
-//       '''
-//     }
-//   }
+\\   stage('Build Docker Images'){
+\\    steps{
+\\       echo "Building Images"
+\\       sh '''
+\\         docker compose up -d
+\\       '''
+\\     }
+\\   }
   }
 }
